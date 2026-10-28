@@ -1,24 +1,33 @@
 import dotenv from "dotenv";
 import connectDB from "./db/index.js";
-
+import {app} from "./app.js";
 dotenv.config({
-    path: './env'
+    path: './.env'
 });
 
-connectDB()
-.then(() => {
+// connectDB()
+// .then(() => {
 
-    const server =app.listen(process.env.PORT || 8000, () => {
-        console.log(`Server is running on port ${process.env.PORT || 8000}`);
-    });
-    server.on("error", (err)=>{
-        console.error("Error starting the server:", err);
-    })
-})
-.catch((err) => {
-    console.error("Error connecting to MongoDB:", err);
-    process.exit(1);
-});
+//     const server =app.listen(process.env.PORT || 8000, () => {
+//         console.log(`Server is running on port ${process.env.PORT || 8000}`);
+//     });
+//     server.on("error", (err)=>{
+//         console.error("Error starting the server:", err);
+//     })
+// })
+// .catch((err) => {
+//     console.error("Error connecting to MongoDB:", err);
+//     process.exit(1);
+// });
+const startServer = async() => {
+    try{
+        await connectDB()
+        app.listen(process.env.PORT || 8000, () => {
+            console.log(`Server is running on port ${process.env.PORT || 8000}`);
+        }) 
+    } catch(error){
+        console.error("Error starting the server:", error);
+    }
 
-
-
+}
+startServer();
