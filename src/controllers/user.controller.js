@@ -81,7 +81,7 @@ const registerUser = asyncHandler(async(req,res)=>{
 const loginUser = asyncHandler(async(req,res)=>{
     const{email,password,username} = req.body
     //check whether the email and password is present
-    if(!email || !password){
+    if(!(email || password)){
         throw new ApiError(400,"Email and password are required")
     }
     //check if the user is present in the database
@@ -162,7 +162,12 @@ const logoutUser = asyncHandler(async(req,res)=>{
             "User logged out successfully"
         )
     )
+
+
+
+    
 })
+
 
 export {
     registerUser,
