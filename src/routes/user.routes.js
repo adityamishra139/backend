@@ -5,6 +5,13 @@ import {loginUser} from "../controllers/user.controller.js";
 import {logoutUser} from "../controllers/user.controller.js";
 import {verifyJWT} from "../middlewares/auth.middleware.js";
 import { refreshAccessToken } from "../controllers/user.controller.js"; 
+import { changeCurrentPassword } from "../controllers/user.controller.js";
+import { updateUserCoverImage } from "../controllers/user.controller.js";
+import { getWatchHistory } from "../controllers/user.controller.js";
+import { getCurrentUser } from "../controllers/user.controller.js";
+import { updateAccountDetails } from "../controllers/user.controller.js";
+import { getuserChannelProfile } from "../controllers/user.controller.js";
+import { updateUserAvatar } from "../controllers/user.controller.js";
 const router = Router() ;
 
 router.route("/register").post(
@@ -19,8 +26,13 @@ router.route("/login").post(loginUser)
 
 //secured Routes
 router.route("/logout").post(verifyJWT,logoutUser)
-
+router.route("/current-user").get(verifyJWT,getCurrentUser)
 router.route("/refresh-token").post(refreshAccessToken)
-
+router.route("/change-password").post(verifyJWT,changeCurrentPassword)
+router.route("/update-account-details").patch(verifyJWT,updateAccountDetails)
+router.route("/avatar").patch(verifyJWT,upload.single("avatar"),updateUserAvatar)
+router.route("/cover-image").patch(verifyJWT,upload.single("coverImage"),updateUserCoverImage)
+router.route("/c/:username").get(verifyJWT,getuserChannelProfile)
+router.route("/history").get(verifyJWT,getWatchHistory)
 
 export default router
